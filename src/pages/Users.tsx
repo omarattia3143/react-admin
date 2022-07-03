@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import { User } from "../models/user";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -9,37 +18,39 @@ const Users = () => {
   useEffect(() => {
     (async () => {
       const { data } = await axios.get("/ambassadors");
-
+      console.log(data);
       setUsers(data);
     })();
   }, []);
 
   return (
     <Layout>
-      <table className="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => {
-            return (
-              <tr>
-                <td>{user.id}</td>
-                <td>
-                  {user.first_name} {user.last_name}
-                </td>
-                <td>{user.email}</td>
-                <td></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>#</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user) => {
+              return (
+                <TableRow key={user.id}>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell>
+                    {user.first_name} {user.last_name}
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Layout>
   );
 };
