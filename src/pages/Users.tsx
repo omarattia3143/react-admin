@@ -8,17 +8,20 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
 } from "@mui/material";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [page, setPage] = useState(0);
+  const perPage = 10;
 
   useEffect(() => {
     (async () => {
       const { data } = await axios.get("/ambassadors");
-      console.log(data);
       setUsers(data);
     })();
   }, []);
@@ -36,7 +39,7 @@ const Users = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user) => {
+            {users.slice(page * perPage, (page + 1) * perPage).map((user) => {
               return (
                 <TableRow key={user.id}>
                   <TableCell>{user.id}</TableCell>
@@ -49,6 +52,17 @@ const Users = () => {
               );
             })}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                count={users.length}
+                page={page}
+                rowsPerPage={perPage}
+                onPageChange={(e, newPage) => setPage(newPage)}
+                rowsPerPageOptions={[]}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </Layout>
