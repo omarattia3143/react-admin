@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../components/Layout";
-import axios from "axios";
-import { User } from "../models/user";
 import {
-  Button,
   Paper,
   Table,
   TableBody,
@@ -14,19 +10,21 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import Layout from "../components/Layout";
+import { Link } from "../models/link";
+import axios from "axios";
 
-const Users = () => {
-  const [users, setUsers] = useState<User[]>([]);
+const Links = (props: any) => {
+  const [links, setLinks] = useState<Link[]>([]);
   const [page, setPage] = useState(0);
   const perPage = 10;
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get("/ambassadors");
-      setUsers(data);
+      const { data } = await axios.get(`users/${props.match.params.id}/links`);
+      setLinks(data);
     })();
   }, []);
-
   return (
     <Layout>
       <TableContainer component={Paper}>
@@ -34,28 +32,20 @@ const Users = () => {
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell>Code</TableCell>
+              <TableCell>Count</TableCell>
+              <TableCell>Revenue</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.slice(page * perPage, (page + 1) * perPage).map((user) => {
+            {links.slice(page * perPage, (page + 1) * perPage).map((link) => {
               return (
-                <TableRow key={user.id}>
-                  <TableCell>{user.id}</TableCell>
+                <TableRow key={link.id}>
+                  <TableCell>{link.id}</TableCell>
+                  <TableCell>{link.code}</TableCell>
+                  <TableCell>{link.orders.length}</TableCell>
                   <TableCell>
-                    {user.first_name} {user.last_name}
-                  </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={`users/${user.id}/links`}
-                    >
-                      View
-                    </Button>
+                    {link.orders.reduce((s, o) => s + o.total, 0)}
                   </TableCell>
                 </TableRow>
               );
@@ -64,7 +54,7 @@ const Users = () => {
           <TableFooter>
             <TableRow>
               <TablePagination
-                count={users.length}
+                count={links.length}
                 page={page}
                 rowsPerPage={perPage}
                 onPageChange={(e, newPage) => setPage(newPage)}
@@ -78,4 +68,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Links;
