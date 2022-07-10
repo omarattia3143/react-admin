@@ -28,7 +28,7 @@ const Menu = () => {
                 aria-current="page"
               >
                 <span data-feather="home" className="align-text-bottom"></span>
-                Users
+                Products
               </NavLink>
             </li>
           </ul>

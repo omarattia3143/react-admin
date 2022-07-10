@@ -13,6 +13,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  ToggleButtonGroup,
 } from "@mui/material";
 
 const Products = () => {
@@ -27,8 +28,27 @@ const Products = () => {
     })();
   }, []);
 
+  const del = async (id: number) => {
+    if (window.confirm("Are you sure?")) {
+      await axios.delete(`products/${id}`);
+
+      setProducts(products.filter((p) => p.id !== id));
+    }
+  };
+
+  const edit = async (id: number) => {};
+
   return (
     <Layout>
+      <div className="pt-3 pb-2 mb-3 boarder-bottom">
+        <Button
+          href={"/products/create"}
+          variant={"contained"}
+          color={"primary"}
+        >
+          Add
+        </Button>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -54,7 +74,25 @@ const Products = () => {
                     <TableCell>{product.title}</TableCell>
                     <TableCell>{product.description}</TableCell>
                     <TableCell>{product.price}</TableCell>
-                    <TableCell></TableCell>
+                    <TableCell>
+                      <ToggleButtonGroup>
+                        <Button
+                          onClick={() => edit(product.id)}
+                          variant={"contained"}
+                          color={"primary"}
+                          href={`products/${product.id}/edit`}
+                        >
+                          edit
+                        </Button>
+                        <Button
+                          onClick={() => del(product.id)}
+                          variant={"contained"}
+                          color={"secondary"}
+                        >
+                          Delete
+                        </Button>
+                      </ToggleButtonGroup>
+                    </TableCell>
                   </TableRow>
                 );
               })}
