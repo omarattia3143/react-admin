@@ -4,6 +4,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import Nav from "./Nav";
 import { User } from "../models/user";
+import {connect} from "react-redux";
 
 const Layout = (props: any) => {
   const [redirect, setRedirect] = useState(false);
@@ -41,4 +42,12 @@ const Layout = (props: any) => {
   );
 };
 
-export default Layout;
+const mapStateToProps = () => {
+
+};
+
+const mapDispatchToProps = () => {
+
+};
+
+export default connect()(Layout);

@@ -16,7 +16,6 @@ const Menu = () => {
                 className="nav-link active"
                 aria-current="page"
               >
-                <span data-feather="home" className="align-text-bottom"></span>
                 Users
               </NavLink>
             </li>
@@ -27,8 +26,17 @@ const Menu = () => {
                 className="nav-link active"
                 aria-current="page"
               >
-                <span data-feather="home" className="align-text-bottom"></span>
                 Products
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to={"/orders"}
+                className="nav-link active"
+                aria-current="page"
+              >
+                Orders
               </NavLink>
             </li>
           </ul>

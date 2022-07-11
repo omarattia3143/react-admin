@@ -8,6 +8,8 @@ import { NavigateToUsers } from "./components/NavigateToUsers";
 import Links from "./pages/Links";
 import Products from "./pages/products/Products";
 import ProductForm from "./pages/products/ProductForm";
+import Orders from "./pages/Orders";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/create" element={<ProductForm />} />
         <Route path="/products/:id/edit" element={<ProductForm />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
