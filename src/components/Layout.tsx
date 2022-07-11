@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import Menu from "./Menu";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import Nav from "./Nav";
 import { User } from "../models/user";
 import {connect} from "react-redux";
+import {setUser} from "../redux/actions/setUserAction";
 
 const Layout = (props: any) => {
   const [redirect, setRedirect] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     (async () => {
       try {
         const { data } = await axios.get("/user");
-        console.log(data);
-        setUser(data);
+        props.setUser(data)
       } catch {
         setRedirect(true);
       }
@@ -27,7 +26,7 @@ const Layout = (props: any) => {
 
   return (
     <div>
-      <Nav user={user} />
+      <Nav />
 
       <div className="container-fluid">
         <div className="row">
@@ -42,12 +41,12 @@ const Layout = (props: any) => {
   );
 };
 
-const mapStateToProps = () => {
+const mapStateToProps = (state:{user:User}) => ({
+  user: state.user
+});
 
-};
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  setUser: (user: User) => dispatch(setUser(user))
+});
 
-const mapDispatchToProps = () => {
-
-};
-
-export default connect()(Layout);
+export default connect(mapStateToProps,mapDispatchToProps)(Layout);
